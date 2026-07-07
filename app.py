@@ -177,18 +177,21 @@ st.title("♫ Music Recommend")
 st.markdown("<p style='color:#666;margin-top:-0.5rem;margin-bottom:1.5rem;font-size:0.95rem;'>설문에 답하면 AI가 당신만을 위한 플레이리스트를 만들어 드립니다.</p>", unsafe_allow_html=True)
 
 # ── API Key 입력 ──────────────────────────────────────────────
-with st.expander("⚙️ OpenAI API Key 설정", expanded=not bool(st.session_state.get("api_key"))):
-    api_key = st.text_input(
-        "API Key",
-        type="password",
-        placeholder="sk-...",
-        help="OpenAI API 키를 입력하세요. 키는 저장되지 않습니다.",
-        label_visibility="collapsed",
-    )
-    if api_key:
-        st.success("API 키 입력 완료")
-    else:
-        st.caption("OpenAI API 키를 입력해야 음악을 추천받을 수 있습니다.")
+api_key = st.secrets.get("OPENAI_API_KEY", "") if hasattr(st, "secrets") else ""
+
+if not api_key:
+    with st.expander("⚙️ OpenAI API Key 설정", expanded=not bool(st.session_state.get("api_key"))):
+        api_key = st.text_input(
+            "API Key",
+            type="password",
+            placeholder="sk-...",
+            help="OpenAI API 키를 입력하세요. 키는 저장되지 않습니다.",
+            label_visibility="collapsed",
+        )
+        if api_key:
+            st.success("API 키 입력 완료")
+        else:
+            st.caption("OpenAI API 키를 입력해야 음악을 추천받을 수 있습니다.")
 
 # ── 설문 ─────────────────────────────────────────────────────
 st.markdown("#### 📋 취향 설문")
