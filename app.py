@@ -18,11 +18,17 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
 [data-testid="stMain"] { background-color: #0a0a0a !important; }
 [data-testid="block-container"] { padding-top: 2.5rem; }
 
-[data-testid="stSidebar"] {
-    background-color: #111111 !important;
-    border-right: 1px solid #2a2a2a;
+/* ── expander (API Key) ── */
+[data-testid="stExpander"] {
+    background: #141414 !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 12px !important;
+    margin-bottom: 1.2rem;
 }
-[data-testid="stSidebar"] * { color: #cccccc !important; }
+[data-testid="stExpander"] summary {
+    color: #aaaaaa !important;
+    font-size: 0.9rem !important;
+}
 
 h1 {
     font-size: 2.2rem !important;
@@ -171,18 +177,18 @@ st.title("♫ Music Recommend")
 st.markdown("<p style='color:#666;margin-top:-0.5rem;margin-bottom:1.5rem;font-size:0.95rem;'>설문에 답하면 AI가 당신만을 위한 플레이리스트를 만들어 드립니다.</p>", unsafe_allow_html=True)
 
 # ── API Key 입력 ──────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("### ⚙️ 설정")
+with st.expander("⚙️ OpenAI API Key 설정", expanded=not bool(st.session_state.get("api_key"))):
     api_key = st.text_input(
-        "OpenAI API Key",
+        "API Key",
         type="password",
         placeholder="sk-...",
-        help="OpenAI API 키를 입력하세요. 키는 저장되지 않습니다."
+        help="OpenAI API 키를 입력하세요. 키는 저장되지 않습니다.",
+        label_visibility="collapsed",
     )
     if api_key:
         st.success("API 키 입력 완료")
     else:
-        st.warning("API 키를 입력해 주세요.")
+        st.caption("OpenAI API 키를 입력해야 음악을 추천받을 수 있습니다.")
 
 # ── 설문 ─────────────────────────────────────────────────────
 st.markdown("#### 📋 취향 설문")
